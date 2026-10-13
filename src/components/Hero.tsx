@@ -4,8 +4,8 @@ import { personalInfo } from '../data/resumeData'
 
 const floatingStats = [
   { label: '52+ Engineers Scaled', color: 'indigo' },
-  { label: '16+ Years Leadership', color: 'cyan' },
-  { label: 'AI-Native Executor', color: 'violet' },
+  { label: '16+ Years Leadership',  color: 'cyan'   },
+  { label: 'AI-Native Executor',    color: 'violet' },
 ]
 
 const trustLogos = ['Amazon', 'Oracle', 'Docusign', 'IIM Kozhikode']
@@ -25,7 +25,7 @@ export default function Hero() {
       id="hero"
       className="relative min-h-screen flex items-center pt-16 overflow-hidden bg-slate-50 dark:bg-slate-950"
     >
-      {/* Background grid pattern */}
+      {/* Background grid */}
       <div
         aria-hidden
         className="pointer-events-none absolute inset-0 opacity-[0.03] dark:opacity-[0.06]"
@@ -35,7 +35,6 @@ export default function Hero() {
           backgroundSize: '60px 60px',
         }}
       />
-
       {/* Radial glow */}
       <div
         aria-hidden
@@ -45,6 +44,7 @@ export default function Hero() {
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 w-full">
         <div className="grid lg:grid-cols-5 gap-12 items-center">
+
           {/* ── Left: Content ── */}
           <div className="lg:col-span-3 space-y-7">
             {/* Status badge */}
@@ -122,30 +122,36 @@ export default function Hero() {
               animate="visible"
               className="flex flex-wrap gap-3"
             >
-              <a
+              <motion.a
                 href={personalInfo.resumePdf}
                 download
-                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-sm transition-all shadow-lg shadow-indigo-600/20 hover:shadow-indigo-500/30 hover:-translate-y-0.5"
+                whileHover={{ y: -2 }}
+                whileTap={{ scale: 0.97 }}
+                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-sm transition-colors shadow-lg shadow-indigo-600/20 hover:shadow-indigo-500/30"
               >
                 <Download size={16} />
                 Download CV
-              </a>
-              <a
+              </motion.a>
+              <motion.a
                 href={personalInfo.linkedin}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-semibold text-sm border border-slate-200 dark:border-slate-700 transition-all hover:-translate-y-0.5"
+                whileHover={{ y: -2 }}
+                whileTap={{ scale: 0.97 }}
+                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-semibold text-sm border border-slate-200 dark:border-slate-700 transition-colors"
               >
                 <Linkedin size={16} className="text-indigo-500" />
                 LinkedIn
-              </a>
-              <a
+              </motion.a>
+              <motion.a
                 href={`mailto:${personalInfo.email}?subject=Let%27s%20Connect`}
-                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 font-semibold text-sm border border-slate-200 dark:border-slate-700/50 hover:border-slate-300 dark:hover:border-slate-600 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-all hover:-translate-y-0.5"
+                whileHover={{ y: -2 }}
+                whileTap={{ scale: 0.97 }}
+                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 font-semibold text-sm border border-slate-200 dark:border-slate-700/50 hover:border-slate-300 dark:hover:border-slate-600 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors"
               >
                 <Mail size={16} />
                 Get in Touch
-              </a>
+              </motion.a>
             </motion.div>
 
             {/* Trust bar */}
@@ -173,18 +179,19 @@ export default function Hero() {
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.3, duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
           >
-            {/* Avatar circle */}
+            {/* Avatar with continuous float */}
             <div className="relative">
-              {/* Outer glow ring */}
               <div className="absolute -inset-4 rounded-full bg-gradient-to-br from-indigo-500/20 to-cyan-500/20 blur-xl" />
-              {/* Ring border */}
               <div className="absolute -inset-2 rounded-full bg-gradient-to-br from-indigo-500 to-cyan-500 opacity-20" />
-              {/* Avatar */}
-              <div className="relative w-52 h-52 sm:w-64 sm:h-64 rounded-full bg-gradient-to-br from-indigo-600 via-violet-600 to-cyan-600 flex items-center justify-center shadow-2xl shadow-indigo-500/20">
+              <motion.div
+                animate={{ y: [0, -10, 0] }}
+                transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
+                className="relative w-52 h-52 sm:w-64 sm:h-64 rounded-full bg-gradient-to-br from-indigo-600 via-violet-600 to-cyan-600 flex items-center justify-center shadow-2xl shadow-indigo-500/20"
+              >
                 <span className="text-6xl sm:text-7xl font-black text-white tracking-tight select-none">
                   MA
                 </span>
-              </div>
+              </motion.div>
             </div>
 
             {/* Floating stat chips */}

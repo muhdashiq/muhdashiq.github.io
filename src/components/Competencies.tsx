@@ -40,6 +40,7 @@ function CompetencyCard({
   return (
     <motion.div
       variants={{ hidden: { opacity: 0, y: 24 }, visible: { opacity: 1, y: 0 } }}
+      whileHover={{ y: -4, transition: { type: 'spring', stiffness: 300, damping: 25 } }}
       transition={{ duration: 0.5 }}
       className="flex flex-col rounded-2xl bg-white dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700/50 overflow-hidden"
     >

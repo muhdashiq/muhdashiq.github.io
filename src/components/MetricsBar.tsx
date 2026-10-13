@@ -67,8 +67,9 @@ function MetricCard({ metric }: { metric: Metric }) {
   return (
     <motion.div
       variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }}
+      whileHover={{ y: -4, scale: 1.02, transition: { type: 'spring', stiffness: 300, damping: 20 } }}
       transition={{ duration: 0.5 }}
-      className={`p-6 rounded-2xl bg-white dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700/50 ${accent.hover} hover:shadow-lg ${accent.shadow} transition-all duration-300`}
+      className={`p-6 rounded-2xl bg-white dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700/50 ${accent.hover} hover:shadow-lg ${accent.shadow} transition-colors duration-300`}
     >
       <div className={`inline-flex p-2.5 rounded-xl ${accent.iconBg} mb-4`}>
         <Icon size={20} className={accent.iconColor} />

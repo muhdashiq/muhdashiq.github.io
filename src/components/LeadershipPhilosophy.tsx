@@ -47,8 +47,9 @@ function PhilosophyCard({ philosophy }: { philosophy: Philosophy }) {
   return (
     <motion.div
       variants={{ hidden: { opacity: 0, y: 24 }, visible: { opacity: 1, y: 0 } }}
+      whileHover={{ y: -4, transition: { type: 'spring', stiffness: 300, damping: 25 } }}
       transition={{ duration: 0.5 }}
-      className={`p-7 rounded-2xl bg-white dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700/50 ${accent.border} hover:shadow-lg transition-all duration-300 flex flex-col gap-4`}
+      className={`p-7 rounded-2xl bg-white dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700/50 ${accent.border} hover:shadow-lg transition-colors duration-300 flex flex-col gap-4`}
     >
       <div>
         <div className={`inline-flex p-3 rounded-xl ${accent.iconBg} mb-4`}>
