@@ -3,6 +3,9 @@ import { Heart, Network, Zap, Brain } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
 import { philosophies } from '../data/resumeData'
 import type { Philosophy } from '../data/resumeData'
+import { stagger, inViewOnce } from '../lib/motion'
+import SectionHeader from './ui/SectionHeader'
+import SpotlightCard from './ui/SpotlightCard'
 
 const iconMap: Record<string, LucideIcon> = { Heart, Network, Zap, Brain }
 
@@ -45,12 +48,7 @@ function PhilosophyCard({ philosophy }: { philosophy: Philosophy }) {
   const accent = accentMap[philosophy.accentColor]
 
   return (
-    <motion.div
-      variants={{ hidden: { opacity: 0, y: 24 }, visible: { opacity: 1, y: 0 } }}
-      whileHover={{ y: -4, transition: { type: 'spring', stiffness: 300, damping: 25 } }}
-      transition={{ duration: 0.5 }}
-      className={`p-7 rounded-2xl bg-white dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700/50 ${accent.border} hover:shadow-lg transition-colors duration-300 flex flex-col gap-4`}
-    >
+    <SpotlightCard className="p-7 flex flex-col gap-4">
       <div>
         <div className={`inline-flex p-3 rounded-xl ${accent.iconBg} mb-4`}>
           <Icon size={22} className={accent.iconColor} />
@@ -67,39 +65,26 @@ function PhilosophyCard({ philosophy }: { philosophy: Philosophy }) {
       >
         {philosophy.description}
       </p>
-    </motion.div>
+    </SpotlightCard>
   )
-}
-
-const container = {
-  hidden: {},
-  visible: { transition: { staggerChildren: 0.1 } },
 }
 
 export default function LeadershipPhilosophy() {
   return (
-    <section id="philosophy" className="py-20 bg-slate-50 dark:bg-slate-950">
+    <section id="philosophy" className="py-24 bg-slate-50 dark:bg-slate-950">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-          className="text-center mb-14"
-        >
-          <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 dark:text-slate-100">
-            Leadership Philosophy
-          </h2>
-          <p className="mt-3 text-slate-600 dark:text-slate-400 max-w-xl mx-auto">
-            Four principles that guide every team I build and every product I ship.
-          </p>
-        </motion.div>
+        <SectionHeader
+          index="06"
+          eyebrow="philosophy"
+          title="Leadership Philosophy"
+          subtitle="Four principles that guide every team I build and every AI platform I ship."
+        />
 
         <motion.div
-          variants={container}
+          variants={stagger(0.1)}
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, margin: '-60px' }}
+          viewport={inViewOnce}
           className="grid grid-cols-1 sm:grid-cols-2 gap-6"
         >
           {philosophies.map((p) => (

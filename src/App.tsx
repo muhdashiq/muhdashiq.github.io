@@ -1,9 +1,12 @@
 import { useState, useEffect } from 'react'
+import { MotionConfig } from 'framer-motion'
 import Navigation from './components/Navigation'
 import Hero from './components/Hero'
 import MetricsBar from './components/MetricsBar'
 import CareerTimeline from './components/CareerTimeline'
 import Competencies from './components/Competencies'
+import Education from './components/Education'
+import Certifications from './components/Certifications'
 import LeadershipPhilosophy from './components/LeadershipPhilosophy'
 import Footer from './components/Footer'
 
@@ -19,16 +22,20 @@ export default function App() {
   }, [isDark])
 
   return (
-    <div className="min-h-screen">
-      <Navigation isDark={isDark} onToggleTheme={() => setIsDark((p) => !p)} />
-      <main>
-        <Hero />
-        <MetricsBar />
-        <CareerTimeline />
-        <Competencies />
-        <LeadershipPhilosophy />
-      </main>
-      <Footer />
-    </div>
+    <MotionConfig reducedMotion="user">
+      <div className="min-h-screen">
+        <Navigation isDark={isDark} onToggleTheme={() => setIsDark((p) => !p)} />
+        <main>
+          <Hero />
+          <MetricsBar />
+          <CareerTimeline />
+          <Competencies />
+          <Education />
+          <Certifications />
+          <LeadershipPhilosophy />
+        </main>
+        <Footer />
+      </div>
+    </MotionConfig>
   )
 }

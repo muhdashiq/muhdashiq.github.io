@@ -9,11 +9,13 @@ interface NavigationProps {
 }
 
 const navLinks = [
-  { label: 'About',      href: '#hero',       id: 'hero'       },
-  { label: 'Impact',     href: '#impact',     id: 'impact'     },
-  { label: 'Experience', href: '#experience', id: 'experience' },
-  { label: 'Skills',     href: '#skills',     id: 'skills'     },
-  { label: 'Philosophy', href: '#philosophy', id: 'philosophy' },
+  { label: 'About',          href: '#hero',           id: 'hero'           },
+  { label: 'Impact',         href: '#impact',         id: 'impact'         },
+  { label: 'Experience',     href: '#experience',     id: 'experience'     },
+  { label: 'Skills',         href: '#skills',         id: 'skills'         },
+  { label: 'Education',      href: '#education',      id: 'education'      },
+  { label: 'Certifications', href: '#certifications', id: 'certifications' },
+  { label: 'Philosophy',     href: '#philosophy',     id: 'philosophy'     },
 ]
 
 export default function Navigation({ isDark, onToggleTheme }: NavigationProps) {
@@ -64,13 +66,13 @@ export default function Navigation({ isDark, onToggleTheme }: NavigationProps) {
       {/* Scroll progress bar */}
       <motion.div
         style={{ scaleX, transformOrigin: '0%' }}
-        className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-indigo-500 to-cyan-500"
+        className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-indigo-500 via-violet-500 to-cyan-500"
       />
 
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
         {/* Logo */}
         <a href="#hero" onClick={closeMobile} className="flex items-center gap-2.5 group">
-          <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-indigo-500 to-cyan-500 flex items-center justify-center text-white font-bold text-sm shadow-lg group-hover:shadow-indigo-500/30 transition-shadow">
+          <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-indigo-600 via-violet-600 to-cyan-600 flex items-center justify-center text-white font-bold text-sm shadow-lg group-hover:shadow-indigo-500/40 group-hover:scale-105 transition-all">
             MA
           </div>
           <span className="hidden sm:block font-semibold text-slate-900 dark:text-slate-100 text-sm">
@@ -79,12 +81,12 @@ export default function Navigation({ isDark, onToggleTheme }: NavigationProps) {
         </a>
 
         {/* Desktop links */}
-        <ul className="hidden md:flex items-center gap-1">
+        <ul className="hidden lg:flex items-center gap-0.5">
           {navLinks.map((link) => (
             <li key={link.href}>
               <a
                 href={link.href}
-                className={`relative px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
+                className={`relative px-2.5 py-1.5 rounded-lg text-sm font-medium transition-colors ${
                   activeSection === link.id
                     ? 'text-slate-900 dark:text-slate-100'
                     : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100'
@@ -153,7 +155,7 @@ export default function Navigation({ isDark, onToggleTheme }: NavigationProps) {
           <button
             onClick={() => setMobileOpen((o) => !o)}
             aria-label="Toggle menu"
-            className="md:hidden p-2 rounded-lg text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800/60 transition-colors"
+            className="lg:hidden p-2 rounded-lg text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800/60 transition-colors"
           >
             <AnimatePresence mode="wait" initial={false}>
               {mobileOpen ? (
@@ -192,7 +194,7 @@ export default function Navigation({ isDark, onToggleTheme }: NavigationProps) {
             animate={{ opacity: 1, height: 'auto' }}
             exit={{    opacity: 0, height: 0 }}
             transition={{ duration: 0.2 }}
-            className="md:hidden overflow-hidden bg-white dark:bg-slate-950 border-b border-slate-200 dark:border-slate-800/60"
+            className="lg:hidden overflow-hidden bg-white dark:bg-slate-950 border-b border-slate-200 dark:border-slate-800/60"
           >
             <div className="px-4 pt-2 pb-4 space-y-1">
               {navLinks.map((link) => (

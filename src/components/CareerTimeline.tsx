@@ -1,8 +1,10 @@
-import { useState } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { useRef, useState } from 'react'
+import { motion, AnimatePresence, useScroll, useSpring } from 'framer-motion'
 import { ChevronDown, MapPin, Clock, Users, CheckCircle2, Star } from 'lucide-react'
 import { experiences } from '../data/resumeData'
 import type { Experience } from '../data/resumeData'
+import { stagger, inViewOnce, easeOutExpo } from '../lib/motion'
+import SectionHeader from './ui/SectionHeader'
 
 const typeStyles: Record<Experience['type'], { dot: string; badge: string; badgeText: string }> = {
   current: {
@@ -27,48 +29,45 @@ const typeStyles: Record<Experience['type'], { dot: string; badge: string; badge
   },
 }
 
-const container = {
-  hidden: {},
-  visible: { transition: { staggerChildren: 0.1 } },
-}
+const container = stagger(0.1)
 
 const itemAnim = {
-  hidden: { opacity: 0, x: -20 },
-  visible: { opacity: 1, x: 0, transition: { duration: 0.5 } },
+  hidden: { opacity: 0, x: -20, filter: 'blur(6px)' },
+  visible: { opacity: 1, x: 0, filter: 'blur(0px)', transition: { duration: 0.6, ease: easeOutExpo } },
 }
 
 export default function CareerTimeline() {
   const [expandedId, setExpandedId] = useState<string>('docusign')
+  const timelineRef = useRef<HTMLDivElement>(null)
+  const { scrollYProgress } = useScroll({ target: timelineRef, offset: ['start 80%', 'end 60%'] })
+  const lineScale = useSpring(scrollYProgress, { stiffness: 120, damping: 30, restDelta: 0.001 })
 
   const toggle = (id: string) => setExpandedId((prev) => (prev === id ? '' : id))
 
   return (
-    <section id="experience" className="py-20 bg-slate-50 dark:bg-slate-950">
+    <section id="experience" className="py-24 bg-slate-50 dark:bg-slate-950">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-          className="text-center mb-14"
-        >
-          <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 dark:text-slate-100">
-            Career Trajectory
-          </h2>
-          <p className="mt-3 text-slate-600 dark:text-slate-400 max-w-xl mx-auto">
-            A progressive journey from engineer to enterprise engineering leader.
-          </p>
-        </motion.div>
+        <SectionHeader
+          index="02"
+          eyebrow="experience"
+          title="Career Trajectory"
+          subtitle="A progressive journey from engineer to founder to enterprise AI platform leader."
+        />
 
         <motion.div
+          ref={timelineRef}
           variants={container}
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, margin: '-60px' }}
+          viewport={inViewOnce}
           className="relative"
         >
-          {/* Timeline line */}
-          <div className="absolute left-4 sm:left-5 top-2 bottom-2 w-px bg-gradient-to-b from-indigo-500 via-cyan-500/50 to-transparent" />
+          {/* Timeline track + scroll-linked progress */}
+          <div className="absolute left-4 sm:left-5 top-2 bottom-2 w-px bg-slate-200 dark:bg-slate-800" />
+          <motion.div
+            style={{ scaleY: lineScale, originY: 0 }}
+            className="absolute left-4 sm:left-5 top-2 bottom-2 w-px bg-gradient-to-b from-indigo-500 via-violet-500 to-cyan-500 shadow-[0_0_8px_rgba(99,102,241,0.6)]"
+          />
 
           <div className="space-y-4">
             {experiences.map((exp) => {
@@ -82,7 +81,10 @@ export default function CareerTimeline() {
                     className={`absolute left-1.5 sm:left-2.5 top-5 w-5 h-5 rounded-full ${style.dot} flex items-center justify-center`}
                   >
                     {exp.type === 'current' && (
-                      <span className="w-2 h-2 rounded-full bg-white animate-pulse" />
+                      <>
+                        <span className="absolute inset-0 rounded-full bg-indigo-500 animate-ping opacity-40" />
+                        <span className="relative w-2 h-2 rounded-full bg-white animate-pulse" />
+                      </>
                     )}
                   </div>
 
@@ -146,7 +148,7 @@ export default function CareerTimeline() {
                           initial={{ height: 0, opacity: 0 }}
                           animate={{ height: 'auto', opacity: 1 }}
                           exit={{ height: 0, opacity: 0 }}
-                          transition={{ duration: 0.3, ease: 'easeInOut' }}
+                          transition={{ duration: 0.4, ease: easeOutExpo }}
                           style={{ overflow: 'hidden' }}
                         >
                           <div className="px-5 pb-5 border-t border-slate-100 dark:border-slate-700/50 pt-4 space-y-4">
@@ -158,7 +160,13 @@ export default function CareerTimeline() {
                             {/* Highlights */}
                             <ul className="space-y-2.5">
                               {exp.highlights.map((h, i) => (
-                                <li key={i} className="flex items-start gap-2.5">
+                                <motion.li
+                                  key={i}
+                                  initial={{ opacity: 0, y: 6 }}
+                                  animate={{ opacity: 1, y: 0 }}
+                                  transition={{ delay: 0.1 + i * 0.05, duration: 0.35 }}
+                                  className="flex items-start gap-2.5"
+                                >
                                   <CheckCircle2
                                     size={15}
                                     className={`flex-shrink-0 mt-0.5 ${
@@ -176,7 +184,7 @@ export default function CareerTimeline() {
                                   >
                                     {h.text}
                                   </span>
-                                </li>
+                                </motion.li>
                               ))}
                             </ul>
 

@@ -3,6 +3,9 @@ import { Users2, Server, Rocket } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
 import { competencies } from '../data/resumeData'
 import type { CompetencyGroup } from '../data/resumeData'
+import { stagger, inViewOnce } from '../lib/motion'
+import SectionHeader from './ui/SectionHeader'
+import SpotlightCard from './ui/SpotlightCard'
 
 const iconMap: Record<string, LucideIcon> = { Users2, Server, Rocket }
 
@@ -38,14 +41,9 @@ function CompetencyCard({
   const style = groupStyles[index % groupStyles.length]
 
   return (
-    <motion.div
-      variants={{ hidden: { opacity: 0, y: 24 }, visible: { opacity: 1, y: 0 } }}
-      whileHover={{ y: -4, transition: { type: 'spring', stiffness: 300, damping: 25 } }}
-      transition={{ duration: 0.5 }}
-      className="flex flex-col rounded-2xl bg-white dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700/50 overflow-hidden"
-    >
+    <SpotlightCard className="flex flex-col overflow-hidden">
       {/* Card header */}
-      <div className={`px-6 py-5 border-b ${style.headerBorder} bg-slate-50/50 dark:bg-slate-800/80`}>
+      <div className={`px-6 py-5 border-b ${style.headerBorder} bg-slate-50/50 dark:bg-slate-800/40`}>
         <div className={`inline-flex p-2.5 rounded-xl ${style.iconBg} mb-3`}>
           <Icon size={20} className={style.iconColor} />
         </div>
@@ -56,49 +54,38 @@ function CompetencyCard({
       </div>
 
       {/* Tags */}
-      <div className="px-6 py-5 flex flex-wrap gap-2">
+      <motion.div variants={stagger(0.03, 0.2)} className="px-6 py-5 flex flex-wrap gap-2">
         {group.items.map((item) => (
-          <span
+          <motion.span
             key={item}
-            className={`px-2.5 py-1 rounded-lg text-xs font-medium border ${style.tagBg} transition-all`}
+            variants={{ hidden: { opacity: 0, scale: 0.9 }, visible: { opacity: 1, scale: 1 } }}
+            whileHover={{ y: -2 }}
+            className={`px-2.5 py-1 rounded-lg text-xs font-medium border ${style.tagBg} cursor-default`}
           >
             {item}
-          </span>
+          </motion.span>
         ))}
-      </div>
-    </motion.div>
+      </motion.div>
+    </SpotlightCard>
   )
-}
-
-const container = {
-  hidden: {},
-  visible: { transition: { staggerChildren: 0.12 } },
 }
 
 export default function Competencies() {
   return (
-    <section id="skills" className="py-20 bg-white dark:bg-slate-900">
+    <section id="skills" className="py-24 bg-white dark:bg-slate-900">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-          className="text-center mb-14"
-        >
-          <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 dark:text-slate-100">
-            Core Competencies
-          </h2>
-          <p className="mt-3 text-slate-600 dark:text-slate-400 max-w-xl mx-auto">
-            Strategic domains spanning organizational leadership, systems architecture, and product execution.
-          </p>
-        </motion.div>
+        <SectionHeader
+          index="03"
+          eyebrow="skills"
+          title="Core Competencies"
+          subtitle="Strategic domains spanning organizational leadership, AI and distributed systems architecture, and product execution."
+        />
 
         <motion.div
-          variants={container}
+          variants={stagger(0.12)}
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, margin: '-60px' }}
+          viewport={inViewOnce}
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
         >
           {competencies.map((group, i) => (

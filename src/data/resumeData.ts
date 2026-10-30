@@ -5,10 +5,17 @@ export const personalInfo = {
   initials: 'MA',
   currentTitle: 'Software Development Manager III',
   currentCompany: 'Docusign',
-  tagline: 'Engineering Leader · Platform Architect · Talent Builder',
+  tagline: 'AI Platform Leader · Distributed Systems Architect · Org Builder',
   headline: 'Building world-class engineering orgs and AI-native platforms at scale',
   subHeadline:
-    '16+ years designing distributed systems and scaling high-performance teams across Docusign, Amazon, and Oracle. IIM Kozhikode MBA + CTO Programme.',
+    '16+ years designing distributed systems and scaling high-performance teams across Docusign, Amazon, and Oracle — now leading agentic AI workflows, federated RAG, and integration platforms. IIM Kozhikode MBA + CTO Programme.',
+  openTo: 'Open to Director / VP Engineering · AI Platform Leadership',
+  rotatingFocus: [
+    'agentic AI platforms',
+    'distributed systems at scale',
+    'high-performance orgs',
+    'federated RAG & LLMOps',
+  ],
   location: 'Bengaluru, Karnataka, India',
   email: 'muhdashiq@gmail.com',
   phone: '+91 999 555 7080',
@@ -79,7 +86,7 @@ export const metrics: Metric[] = [
     id: 'education',
     value: 2,
     suffix: '',
-    label: 'IIM Kozhikode Degrees',
+    label: 'IIM Kozhikode Credentials',
     sublabel: 'MBA + CTO Management Development Programme',
     icon: 'GraduationCap',
     accentColor: 'cyan',
@@ -307,6 +314,7 @@ export const competencies: CompetencyGroup[] = [
       'Distributed Systems & Microservices',
       'Platform & API Engineering',
       'AI / ML Productization (LLMs, RAG, NLP)',
+      'Agentic Workflows & Tool Orchestration',
       'Cloud: AWS · GCP · Azure',
       'Kubernetes & Container Orchestration',
       'Observability & SLO / SLA Governance',
@@ -388,20 +396,73 @@ export const philosophies: Philosophy[] = [
 
 // ─── Education ────────────────────────────────────────────────────────────────
 
-export const education = [
+export interface Education {
+  id: string
+  degree: string
+  shortName: string
+  institution: string
+  campus?: string
+  type: string
+  description: string
+  focus: string[]
+  accentColor: 'indigo' | 'cyan' | 'violet'
+}
+
+export const education: Education[] = [
   {
-    degree: 'CTO Management Development Programme',
-    institution: 'Indian Institute of Management, Kozhikode (IIMK)',
-    type: 'Executive Education',
-  },
-  {
+    id: 'iimk-mba',
     degree: 'Master of Business Administration (MBA)',
+    shortName: 'MBA',
     institution: 'Indian Institute of Management, Kozhikode (IIMK)',
     type: 'Graduate Degree',
+    description:
+      'Business strategy, finance, and organizational leadership — the foundation for running engineering as a business function and partnering with the C-suite.',
+    focus: ['Business Strategy', 'Finance & Capital Allocation', 'Organizational Design', 'Operations Management', 'Marketing'],
+    accentColor: 'indigo',
   },
   {
+    id: 'cusat-btech',
     degree: 'B.Tech in Computer Science & Engineering',
+    shortName: 'B.Tech CSE',
     institution: 'Cochin University of Science and Technology (CUSAT)',
+    campus: 'College of Engineering, Chengannur',
     type: 'Undergraduate Degree',
+    description:
+      'Core computer science grounding in systems, data structures, networking, and compilers — the technical bedrock behind every distributed platform since.',
+    focus: ['Data Structures & Algorithms', 'Distributed Computing', 'DBMS', 'Computer Networking', 'Compiler Construction'],
+    accentColor: 'cyan',
+  },
+]
+
+// ─── Certifications ───────────────────────────────────────────────────────────
+
+export interface Certification {
+  id: string
+  title: string
+  issuer: string
+  type: string
+  year?: string
+  credentialUrl?: string
+  description: string
+  skills: string[]
+}
+
+export const certifications: Certification[] = [
+  {
+    id: 'iimk-cto',
+    title: 'Chief Technology Officer — Management Development Programme',
+    issuer: 'Indian Institute of Management, Kozhikode (IIMK)',
+    type: 'Executive Certification',
+    description:
+      'Executive programme for technology leaders covering technology strategy, digital transformation, governance, and board-level leadership — aligning AI and platform bets with business outcomes.',
+    skills: [
+      'Technology Strategy',
+      'AI & Digital Transformation',
+      'Board-Level Communication',
+      'Cybersecurity & Data Governance',
+      'IT Risk Management',
+      'Capital Allocation',
+      'Strategic Partnerships',
+    ],
   },
 ]

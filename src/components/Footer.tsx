@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion'
 import { Mail, Linkedin, Github, FileDown, MapPin } from 'lucide-react'
-import { personalInfo, education } from '../data/resumeData'
+import { personalInfo, education, certifications } from '../data/resumeData'
 
 const socialLinks = [
   {
@@ -35,6 +35,8 @@ const quickLinks = [
   { label: 'Impact', href: '#impact' },
   { label: 'Experience', href: '#experience' },
   { label: 'Skills', href: '#skills' },
+  { label: 'Education', href: '#education' },
+  { label: 'Certifications', href: '#certifications' },
   { label: 'Philosophy', href: '#philosophy' },
 ]
 
@@ -125,12 +127,12 @@ export default function Footer() {
               ))}
             </div>
 
-            {/* Education quick ref */}
+            {/* Credentials quick ref */}
             <div className="pt-2 border-t border-slate-100 dark:border-slate-800">
-              <p className="text-xs text-slate-500 dark:text-slate-600 mb-1.5 font-medium">Education</p>
-              {education.slice(0, 2).map((ed) => (
-                <p key={ed.degree} className="text-xs text-slate-500 dark:text-slate-600 leading-relaxed">
-                  {ed.degree}
+              <p className="text-xs text-slate-500 dark:text-slate-600 mb-1.5 font-medium">Credentials</p>
+              {[...certifications.map((c) => c.title), ...education.map((ed) => ed.degree)].map((label) => (
+                <p key={label} className="text-xs text-slate-500 dark:text-slate-600 leading-relaxed">
+                  {label}
                 </p>
               ))}
             </div>
