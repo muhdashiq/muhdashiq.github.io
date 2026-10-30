@@ -57,46 +57,47 @@ export default function Footer() {
             className="space-y-4"
           >
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-cyan-500 flex items-center justify-center text-white font-bold text-sm shadow-lg">
+              <div aria-hidden className="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-cyan-500 flex items-center justify-center text-white font-bold text-sm shadow-lg">
                 MA
               </div>
               <div>
                 <p className="font-bold text-slate-900 dark:text-slate-100">{personalInfo.name}</p>
-                <p className="text-xs text-slate-500 dark:text-slate-500">{personalInfo.currentTitle}</p>
+                <p className="text-xs text-slate-500 dark:text-slate-400">{personalInfo.currentTitle}</p>
               </div>
             </div>
             <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed max-w-xs">
               {personalInfo.tagline}
             </p>
-            <p className="flex items-center gap-1.5 text-xs text-slate-500 dark:text-slate-500">
-              <MapPin size={12} />
+            <p className="flex items-center gap-1.5 text-xs text-slate-500 dark:text-slate-400">
+              <MapPin aria-hidden="true" size={12} />
               {personalInfo.location}
             </p>
           </motion.div>
 
           {/* Quick links */}
-          <motion.div
+          <motion.nav
+            aria-labelledby="footer-nav-heading"
             initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.1 }}
           >
-            <h4 className="text-xs font-semibold text-slate-400 dark:text-slate-500 uppercase tracking-wider mb-4">
+            <h2 id="footer-nav-heading" className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-4">
               Navigation
-            </h4>
-            <ul className="space-y-2.5">
+            </h2>
+            <ul className="space-y-1">
               {quickLinks.map((link) => (
                 <li key={link.href}>
                   <a
                     href={link.href}
-                    className="text-sm text-slate-600 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
+                    className="inline-block py-1 text-sm text-slate-600 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
                   >
                     {link.label}
                   </a>
                 </li>
               ))}
             </ul>
-          </motion.div>
+          </motion.nav>
 
           {/* Contact */}
           <motion.div
@@ -106,32 +107,34 @@ export default function Footer() {
             transition={{ duration: 0.5, delay: 0.2 }}
             className="space-y-4"
           >
-            <h4 className="text-xs font-semibold text-slate-400 dark:text-slate-500 uppercase tracking-wider">
+            <h2 className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
               Connect
-            </h4>
-            <div className="flex flex-col gap-2.5">
+            </h2>
+            <div className="flex flex-col gap-1">
               {socialLinks.map(({ label, href, icon: Icon, external, download }) => (
                 <a
                   key={label}
                   href={href}
                   {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
                   {...(download ? { download: true } : {})}
-                  className="inline-flex items-center gap-2.5 text-sm text-slate-600 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors group"
+                  className="inline-flex items-center gap-2.5 py-1 text-sm text-slate-600 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors group"
                 >
                   <Icon
+                    aria-hidden="true"
                     size={15}
-                    className="text-slate-400 dark:text-slate-500 group-hover:text-indigo-500 transition-colors"
+                    className="text-slate-500 dark:text-slate-400 group-hover:text-indigo-500 transition-colors"
                   />
                   {label}
+                  {external && <span className="sr-only"> (opens in a new tab)</span>}
                 </a>
               ))}
             </div>
 
             {/* Credentials quick ref */}
             <div className="pt-2 border-t border-slate-100 dark:border-slate-800">
-              <p className="text-xs text-slate-500 dark:text-slate-600 mb-1.5 font-medium">Credentials</p>
+              <h2 className="text-xs text-slate-600 dark:text-slate-300 mb-1.5 font-medium">Credentials</h2>
               {[...certifications.map((c) => c.title), ...education.map((ed) => ed.degree)].map((label) => (
-                <p key={label} className="text-xs text-slate-500 dark:text-slate-600 leading-relaxed">
+                <p key={label} className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
                   {label}
                 </p>
               ))}
@@ -141,10 +144,10 @@ export default function Footer() {
 
         {/* Bottom bar */}
         <div className="py-5 border-t border-slate-100 dark:border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-3">
-          <p className="text-xs text-slate-400 dark:text-slate-600">
+          <p className="text-xs text-slate-500 dark:text-slate-400">
             © {currentYear} {personalInfo.name}. All rights reserved.
           </p>
-          <p className="text-xs text-slate-400 dark:text-slate-600">
+          <p className="text-xs text-slate-500 dark:text-slate-400">
             Built with React, Vite, Tailwind CSS & Framer Motion
           </p>
         </div>

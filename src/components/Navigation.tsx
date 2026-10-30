@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence, useScroll, useSpring } from 'framer-motion'
 import { Sun, Moon, Menu, X, Download } from 'lucide-react'
 import { personalInfo } from '../data/resumeData'
@@ -22,6 +22,7 @@ export default function Navigation({ isDark, onToggleTheme }: NavigationProps) {
   const [scrolled, setScrolled]         = useState(false)
   const [mobileOpen, setMobileOpen]     = useState(false)
   const [activeSection, setActiveSection] = useState('hero')
+  const menuButtonRef = useRef<HTMLButtonElement>(null)
 
   // Scroll progress bar
   const { scrollYProgress } = useScroll()
@@ -50,6 +51,25 @@ export default function Navigation({ isDark, onToggleTheme }: NavigationProps) {
     return () => observers.forEach((o) => o.disconnect())
   }, [])
 
+  // Mobile menu: close on Escape (returning focus to the toggle) and when resizing to desktop
+  useEffect(() => {
+    if (!mobileOpen) return
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setMobileOpen(false)
+        menuButtonRef.current?.focus()
+      }
+    }
+    const desktop = window.matchMedia('(min-width: 1024px)')
+    const onResize = () => { if (desktop.matches) setMobileOpen(false) }
+    document.addEventListener('keydown', onKeyDown)
+    desktop.addEventListener('change', onResize)
+    return () => {
+      document.removeEventListener('keydown', onKeyDown)
+      desktop.removeEventListener('change', onResize)
+    }
+  }, [mobileOpen])
+
   const closeMobile = () => setMobileOpen(false)
 
   return (
@@ -58,23 +78,29 @@ export default function Navigation({ isDark, onToggleTheme }: NavigationProps) {
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
       className={`fixed top-0 left-0 right-0 z-50 transition-colors duration-300 ${
-        scrolled
+        scrolled || mobileOpen
           ? 'bg-white/90 dark:bg-slate-950/90 backdrop-blur-md border-b border-slate-200 dark:border-slate-800/60 shadow-sm'
           : 'bg-transparent'
       }`}
     >
       {/* Scroll progress bar */}
       <motion.div
+        aria-hidden
         style={{ scaleX, transformOrigin: '0%' }}
         className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-indigo-500 via-violet-500 to-cyan-500"
       />
 
-      <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <nav aria-label="Primary" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
         {/* Logo */}
-        <a href="#hero" onClick={closeMobile} className="flex items-center gap-2.5 group">
-          <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-indigo-600 via-violet-600 to-cyan-600 flex items-center justify-center text-white font-bold text-sm shadow-lg group-hover:shadow-indigo-500/40 group-hover:scale-105 transition-all">
+        <a
+          href="#hero"
+          onClick={closeMobile}
+          aria-label={`${personalInfo.name} — back to top`}
+          className="flex items-center gap-2.5 group rounded-xl"
+        >
+          <span aria-hidden className="w-9 h-9 rounded-xl bg-gradient-to-br from-indigo-600 via-violet-600 to-cyan-600 flex items-center justify-center text-white font-bold text-sm shadow-lg group-hover:shadow-indigo-500/40 group-hover:scale-105 transition-all">
             MA
-          </div>
+          </span>
           <span className="hidden sm:block font-semibold text-slate-900 dark:text-slate-100 text-sm">
             {personalInfo.name}
           </span>
@@ -86,7 +112,8 @@ export default function Navigation({ isDark, onToggleTheme }: NavigationProps) {
             <li key={link.href}>
               <a
                 href={link.href}
-                className={`relative px-2.5 py-1.5 rounded-lg text-sm font-medium transition-colors ${
+                aria-current={activeSection === link.id ? 'location' : undefined}
+                className={`relative block px-2.5 py-1.5 rounded-lg text-sm font-medium transition-colors ${
                   activeSection === link.id
                     ? 'text-slate-900 dark:text-slate-100'
                     : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100'
@@ -106,12 +133,12 @@ export default function Navigation({ isDark, onToggleTheme }: NavigationProps) {
         </ul>
 
         {/* Right actions */}
-        <div className="flex items-center gap-2">
-          {/* Theme toggle with icon spin */}
+        <div className="flex items-center gap-1 sm:gap-2">
           <button
+            type="button"
             onClick={onToggleTheme}
-            aria-label="Toggle theme"
-            className="relative p-2 rounded-lg text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-100 dark:hover:bg-slate-800/60 transition-colors"
+            aria-label={isDark ? 'Switch to light theme' : 'Switch to dark theme'}
+            className="relative inline-flex items-center justify-center w-11 h-11 rounded-lg text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-100 dark:hover:bg-slate-800/60 transition-colors"
           >
             <AnimatePresence mode="wait" initial={false}>
               {isDark ? (
@@ -123,7 +150,7 @@ export default function Navigation({ isDark, onToggleTheme }: NavigationProps) {
                   transition={{ duration: 0.18 }}
                   className="flex"
                 >
-                  <Sun size={18} />
+                  <Sun aria-hidden="true" size={18} />
                 </motion.span>
               ) : (
                 <motion.span
@@ -134,7 +161,7 @@ export default function Navigation({ isDark, onToggleTheme }: NavigationProps) {
                   transition={{ duration: 0.18 }}
                   className="flex"
                 >
-                  <Moon size={18} />
+                  <Moon aria-hidden="true" size={18} />
                 </motion.span>
               )}
             </AnimatePresence>
@@ -145,17 +172,20 @@ export default function Navigation({ isDark, onToggleTheme }: NavigationProps) {
             download
             whileHover={{ scale: 1.04 }}
             whileTap={{ scale: 0.96 }}
-            className="hidden md:flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-medium transition-colors shadow-sm"
+            className="hidden md:flex items-center gap-1.5 px-3.5 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-medium transition-colors shadow-sm"
           >
-            <Download size={14} />
+            <Download aria-hidden="true" size={14} />
             Download CV
           </motion.a>
 
-          {/* Hamburger with animated icon swap */}
           <button
+            ref={menuButtonRef}
+            type="button"
             onClick={() => setMobileOpen((o) => !o)}
-            aria-label="Toggle menu"
-            className="lg:hidden p-2 rounded-lg text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800/60 transition-colors"
+            aria-label={mobileOpen ? 'Close navigation menu' : 'Open navigation menu'}
+            aria-expanded={mobileOpen}
+            aria-controls="mobile-navigation"
+            className="lg:hidden inline-flex items-center justify-center w-11 h-11 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800/60 transition-colors"
           >
             <AnimatePresence mode="wait" initial={false}>
               {mobileOpen ? (
@@ -167,7 +197,7 @@ export default function Navigation({ isDark, onToggleTheme }: NavigationProps) {
                   transition={{ duration: 0.15 }}
                   className="flex"
                 >
-                  <X size={20} />
+                  <X aria-hidden="true" size={20} />
                 </motion.span>
               ) : (
                 <motion.span
@@ -178,7 +208,7 @@ export default function Navigation({ isDark, onToggleTheme }: NavigationProps) {
                   transition={{ duration: 0.15 }}
                   className="flex"
                 >
-                  <Menu size={20} />
+                  <Menu aria-hidden="true" size={20} />
                 </motion.span>
               )}
             </AnimatePresence>
@@ -189,40 +219,46 @@ export default function Navigation({ isDark, onToggleTheme }: NavigationProps) {
       {/* Mobile menu */}
       <AnimatePresence>
         {mobileOpen && (
-          <motion.div
+          <motion.nav
+            id="mobile-navigation"
+            aria-label="Mobile"
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{    opacity: 0, height: 0 }}
             transition={{ duration: 0.2 }}
             className="lg:hidden overflow-hidden bg-white dark:bg-slate-950 border-b border-slate-200 dark:border-slate-800/60"
           >
-            <div className="px-4 pt-2 pb-4 space-y-1">
+            <ul className="px-4 pt-2 pb-4 space-y-1">
               {navLinks.map((link) => (
-                <a
-                  key={link.href}
-                  href={link.href}
-                  onClick={closeMobile}
-                  className={`block px-3 py-2.5 rounded-lg text-sm font-medium transition-all ${
-                    activeSection === link.id
-                      ? 'text-slate-900 dark:text-slate-100 bg-slate-100 dark:bg-slate-800/60'
-                      : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-100 dark:hover:bg-slate-800/60'
-                  }`}
-                >
-                  {link.label}
-                </a>
+                <li key={link.href}>
+                  <a
+                    href={link.href}
+                    onClick={closeMobile}
+                    aria-current={activeSection === link.id ? 'location' : undefined}
+                    className={`block px-3 py-3 rounded-lg text-base font-medium transition-all ${
+                      activeSection === link.id
+                        ? 'text-slate-900 dark:text-slate-100 bg-slate-100 dark:bg-slate-800/60'
+                        : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-100 dark:hover:bg-slate-800/60'
+                    }`}
+                  >
+                    {link.label}
+                  </a>
+                </li>
               ))}
-              <motion.a
-                href={personalInfo.resumePdf}
-                download
-                onClick={closeMobile}
-                whileTap={{ scale: 0.97 }}
-                className="flex items-center gap-2 w-full mt-2 px-3 py-2.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-medium transition-colors"
-              >
-                <Download size={14} />
-                Download CV
-              </motion.a>
-            </div>
-          </motion.div>
+              <li>
+                <motion.a
+                  href={personalInfo.resumePdf}
+                  download
+                  onClick={closeMobile}
+                  whileTap={{ scale: 0.97 }}
+                  className="flex items-center gap-2 w-full mt-2 px-3 py-3 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-base font-medium transition-colors"
+                >
+                  <Download aria-hidden="true" size={16} />
+                  Download CV
+                </motion.a>
+              </li>
+            </ul>
+          </motion.nav>
         )}
       </AnimatePresence>
     </motion.header>

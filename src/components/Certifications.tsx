@@ -25,14 +25,14 @@ function CertificationCard({ cert }: { cert: Certification }) {
               transition={{ duration: 0.8, ease: easeOutExpo }}
               className="relative inline-flex p-3.5 rounded-2xl bg-gradient-to-br from-indigo-600 via-violet-600 to-cyan-600 text-white shadow-lg shadow-indigo-500/30"
             >
-              <Award size={26} />
+              <Award aria-hidden="true" size={26} />
             </motion.div>
             <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-50 dark:bg-emerald-500/10 border border-emerald-200 dark:border-emerald-500/30 text-emerald-700 dark:text-emerald-300">
-              <BadgeCheck size={13} />
+              <BadgeCheck aria-hidden="true" size={13} />
               {cert.type}
             </span>
             {cert.year && (
-              <span className="font-mono text-xs text-slate-400 dark:text-slate-500">{cert.year}</span>
+              <span className="font-mono text-xs text-slate-500 dark:text-slate-400">{cert.year}</span>
             )}
           </div>
 
@@ -41,7 +41,7 @@ function CertificationCard({ cert }: { cert: Certification }) {
               {cert.title}
             </h3>
             <p className="mt-2 flex items-center gap-1.5 text-sm font-medium text-slate-600 dark:text-slate-300">
-              <Building2 size={14} className="text-indigo-500" />
+              <Building2 aria-hidden="true" size={14} className="text-indigo-500" />
               {cert.issuer}
             </p>
           </div>
@@ -56,7 +56,8 @@ function CertificationCard({ cert }: { cert: Certification }) {
               className="inline-flex items-center gap-1.5 text-sm font-semibold text-indigo-600 dark:text-cyan-300 hover:underline"
             >
               View credential
-              <ExternalLink size={14} />
+              <span className="sr-only"> (opens in a new tab)</span>
+              <ExternalLink aria-hidden="true" size={14} />
             </a>
           )}
         </div>
@@ -64,7 +65,7 @@ function CertificationCard({ cert }: { cert: Certification }) {
         {/* Capabilities unlocked */}
         <div className="lg:col-span-2">
           <div className="h-full rounded-2xl border border-slate-200 dark:border-slate-700/60 bg-slate-50/80 dark:bg-slate-950/60 p-5">
-            <p className="font-mono text-[11px] uppercase tracking-wider text-slate-400 dark:text-slate-500 mb-4">
+            <p className="font-mono text-[11px] uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-4">
               capabilities.unlocked()
             </p>
             <motion.ul

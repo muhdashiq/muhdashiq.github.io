@@ -39,10 +39,10 @@ export interface Metric {
 export const metrics: Metric[] = [
   {
     id: 'team-scale',
-    value: 22,
+    value: 52,
     suffix: '+',
     label: 'Engineers Scaled',
-    sublabel: 'Built India integration team from 2 to 22',
+    sublabel: 'Built India integration team from 2 to 52',
     icon: 'Users',
     accentColor: 'indigo',
   },
@@ -122,13 +122,13 @@ export const experiences: Experience[] = [
     period: 'Nov 2023 – Present',
     duration: '~3 years',
     location: 'Bengaluru, India',
-    teamSize: '22+',
+    teamSize: '52+',
     type: 'current',
     summary:
       "Leading the India Integration Engineering organization — shipping AI-native workflow products and integration platforms that extend Docusign's agreement cloud across enterprise ecosystems.",
     highlights: [
       {
-        text: 'Scaled India integration engineering org from 2 → 22 engineers, establishing full-cycle recruitment, structured onboarding, and performance frameworks.',
+        text: 'Scaled India integration engineering org from 2 → 52 engineers, establishing full-cycle recruitment, structured onboarding, and performance frameworks.',
         isMetric: true,
       },
       {
@@ -452,7 +452,7 @@ export const certifications: Certification[] = [
     id: 'iimk-cto',
     title: 'Chief Technology Officer — Management Development Programme',
     issuer: 'Indian Institute of Management, Kozhikode (IIMK)',
-    type: 'Executive Certification',
+    type: 'Executive Programme',
     description:
       'Executive programme for technology leaders covering technology strategy, digital transformation, governance, and board-level leadership — aligning AI and platform bets with business outcomes.',
     skills: [

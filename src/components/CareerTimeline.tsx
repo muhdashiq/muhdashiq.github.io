@@ -14,7 +14,7 @@ const typeStyles: Record<Experience['type'], { dot: string; badge: string; badge
   },
   leadership: {
     dot: 'bg-cyan-500 ring-4 ring-cyan-500/20',
-    badge: 'bg-cyan-50 dark:bg-cyan-500/10 border-cyan-200 dark:border-cyan-500/30 text-cyan-600 dark:text-cyan-400',
+    badge: 'bg-cyan-50 dark:bg-cyan-500/10 border-cyan-200 dark:border-cyan-500/30 text-cyan-700 dark:text-cyan-400',
     badgeText: 'Leadership',
   },
   ic: {
@@ -96,55 +96,65 @@ export default function CareerTimeline() {
                         : 'bg-white/60 dark:bg-slate-800/40 border-slate-200/80 dark:border-slate-700/50 hover:bg-white dark:hover:bg-slate-800/60 hover:border-slate-200 dark:hover:border-slate-700'
                     }`}
                   >
-                    {/* Header — always visible, clickable */}
-                    <button
-                      onClick={() => toggle(exp.id)}
-                      className="w-full text-left px-5 py-4 flex items-start justify-between gap-4"
-                    >
-                      <div className="flex-1 min-w-0">
-                        <div className="flex flex-wrap items-center gap-2 mb-1">
-                          <span
-                            className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-semibold border ${style.badge}`}
-                          >
-                            {exp.type === 'current' && <Star size={10} fill="currentColor" />}
-                            {style.badgeText}
-                          </span>
-                          {exp.teamSize && (
-                            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium bg-slate-100 dark:bg-slate-700/50 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-700">
-                              <Users size={10} />
-                              {exp.teamSize} team
+                    {/* Header — always visible; heading > button per the WAI accordion pattern */}
+                    <h3 className="m-0">
+                      <button
+                        type="button"
+                        id={`${exp.id}-trigger`}
+                        onClick={() => toggle(exp.id)}
+                        aria-expanded={isOpen}
+                        aria-controls={`${exp.id}-panel`}
+                        className="w-full text-left px-5 py-4 flex items-start justify-between gap-4 rounded-2xl"
+                      >
+                        <span className="block flex-1 min-w-0">
+                          <span className="flex flex-wrap items-center gap-2 mb-1">
+                            <span
+                              className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-semibold border ${style.badge}`}
+                            >
+                              {exp.type === 'current' && <Star aria-hidden="true" size={10} fill="currentColor" />}
+                              {style.badgeText}
                             </span>
-                          )}
-                        </div>
-                        <h3 className="text-base font-bold text-slate-900 dark:text-slate-100 leading-tight">
-                          {exp.role}
-                        </h3>
-                        <p className="mt-0.5 text-sm font-semibold text-indigo-600 dark:text-indigo-400">
-                          {exp.company}
-                        </p>
-                        <div className="mt-1.5 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-slate-500 dark:text-slate-500">
-                          <span className="flex items-center gap-1">
-                            <Clock size={11} />
-                            {exp.period}
+                            {exp.teamSize && (
+                              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium bg-slate-100 dark:bg-slate-700/50 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700">
+                                <Users aria-hidden="true" size={10} />
+                                {exp.teamSize} team
+                              </span>
+                            )}
                           </span>
-                          <span className="hidden sm:inline">{exp.duration}</span>
-                          <span className="flex items-center gap-1">
-                            <MapPin size={11} />
-                            {exp.location}
+                          <span className="block text-base font-bold text-slate-900 dark:text-slate-100 leading-tight">
+                            {exp.role}
                           </span>
-                        </div>
-                      </div>
-                      <ChevronDown
-                        size={18}
-                        className={`flex-shrink-0 mt-1 text-slate-400 dark:text-slate-500 transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`}
-                      />
-                    </button>
+                          <span className="block mt-0.5 text-sm font-semibold text-indigo-600 dark:text-indigo-400">
+                            {exp.company}
+                          </span>
+                          <span className="mt-1.5 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs font-normal text-slate-500 dark:text-slate-400">
+                            <span className="flex items-center gap-1">
+                              <Clock aria-hidden="true" size={11} />
+                              {exp.period}
+                            </span>
+                            <span className="hidden sm:inline">{exp.duration}</span>
+                            <span className="flex items-center gap-1">
+                              <MapPin aria-hidden="true" size={11} />
+                              {exp.location}
+                            </span>
+                          </span>
+                        </span>
+                        <ChevronDown
+                          aria-hidden="true"
+                          size={18}
+                          className={`flex-shrink-0 mt-1 text-slate-500 dark:text-slate-400 transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`}
+                        />
+                      </button>
+                    </h3>
 
                     {/* Expandable body */}
                     <AnimatePresence initial={false}>
                       {isOpen && (
                         <motion.div
                           key={exp.id + '-body'}
+                          id={`${exp.id}-panel`}
+                          role="region"
+                          aria-labelledby={`${exp.id}-trigger`}
                           initial={{ height: 0, opacity: 0 }}
                           animate={{ height: 'auto', opacity: 1 }}
                           exit={{ height: 0, opacity: 0 }}
@@ -168,6 +178,7 @@ export default function CareerTimeline() {
                                   className="flex items-start gap-2.5"
                                 >
                                   <CheckCircle2
+                                    aria-hidden="true"
                                     size={15}
                                     className={`flex-shrink-0 mt-0.5 ${
                                       h.isMetric

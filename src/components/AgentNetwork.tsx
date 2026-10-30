@@ -2,6 +2,7 @@ import { motion, useReducedMotion } from 'framer-motion'
 import { Compass, Users, Database, Brain, Wrench, ShieldCheck } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
 import { easeOutExpo } from '../lib/motion'
+import { useMediaQuery } from '../lib/useMediaQuery'
 
 interface AgentNode {
   label: string
@@ -29,9 +30,12 @@ const positions = nodes.map((_, i) => {
 
 export default function AgentNetwork() {
   const reduce = useReducedMotion()
+  const isSmall = useMediaQuery('(max-width: 639px)')
+  // Continuous ambient motion is skipped on small screens and for reduced-motion users.
+  const lite = reduce || isSmall
 
   return (
-    <div className="relative w-full max-w-[420px] aspect-square mx-auto select-none" aria-hidden>
+    <div className="relative w-full max-w-[320px] sm:max-w-[420px] aspect-square mx-auto select-none" aria-hidden>
       <svg viewBox="0 0 400 400" className="absolute inset-0 w-full h-full overflow-visible">
         <defs>
           <linearGradient id="edge" x1="0" y1="0" x2="1" y2="1">
@@ -48,7 +52,7 @@ export default function AgentNetwork() {
 
         {/* Orbit rings */}
         <motion.g
-          animate={reduce ? undefined : { rotate: 360 }}
+          animate={lite ? undefined : { rotate: 360 }}
           transition={{ duration: 60, repeat: Infinity, ease: 'linear' }}
         >
           <circle cx={CENTER} cy={CENTER} r={RADIUS} fill="none" stroke="url(#edge)" strokeOpacity="0.25" strokeDasharray="2 6" />
@@ -66,12 +70,13 @@ export default function AgentNetwork() {
               stroke="url(#edge)"
               strokeWidth="1.25"
               strokeOpacity="0.55"
-              className="dash-flow"
+              className={lite ? undefined : 'dash-flow'}
+              strokeDasharray={lite ? '4 8' : undefined}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.6 + i * 0.12, duration: 0.8, ease: easeOutExpo }}
             />
-            {!reduce && (
+            {!lite && (
               <motion.circle
                 r="3"
                 fill="#22d3ee"
@@ -111,7 +116,7 @@ export default function AgentNetwork() {
           transition={{ delay: 0.3, duration: 0.8, ease: easeOutExpo }}
           className="relative"
         >
-          {!reduce && (
+          {!lite && (
             <motion.span
               className="absolute inset-0 rounded-3xl bg-gradient-to-br from-indigo-500 to-cyan-500"
               animate={{ scale: [1, 1.35], opacity: [0.45, 0] }}
@@ -141,12 +146,12 @@ export default function AgentNetwork() {
               transition={{ delay: 0.8 + i * 0.12, duration: 0.6, ease: easeOutExpo }}
             >
               <motion.div
-                animate={reduce ? undefined : { y: [0, -4, 0] }}
+                animate={lite ? undefined : { y: [0, -4, 0] }}
                 transition={{ duration: 3 + i * 0.3, repeat: Infinity, ease: 'easeInOut' }}
                 className="flex flex-col items-center gap-1"
               >
                 <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-2xl flex items-center justify-center bg-white/90 dark:bg-slate-900/90 border border-slate-200 dark:border-slate-700/70 shadow-lg shadow-slate-900/5 backdrop-blur">
-                  <Icon size={20} className={node.color} />
+                  <Icon aria-hidden="true" size={20} className={node.color} />
                 </div>
                 <div className="text-center leading-tight">
                   <div className="text-[11px] font-semibold text-slate-700 dark:text-slate-200">{node.label}</div>

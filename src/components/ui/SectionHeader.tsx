@@ -21,11 +21,11 @@ export default function SectionHeader({ index, eyebrow, title, subtitle }: Secti
         variants={fadeUp}
         className="inline-flex items-center gap-2 px-3 py-1 mb-4 rounded-full font-mono text-[11px] tracking-wider uppercase text-indigo-600 dark:text-cyan-300 bg-indigo-50/80 dark:bg-cyan-400/5 border border-indigo-200 dark:border-cyan-400/20"
       >
-        <span className="relative flex h-1.5 w-1.5">
+        <span aria-hidden className="relative flex h-1.5 w-1.5">
           <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75" />
           <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-cyan-500" />
         </span>
-        <span className="text-slate-400 dark:text-slate-500">{index}</span>
+        <span aria-hidden className="text-slate-600 dark:text-slate-400">{index}</span>
         {eyebrow}
       </motion.div>
       <motion.h2

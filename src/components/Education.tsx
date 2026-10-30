@@ -15,7 +15,7 @@ const accentMap: Record<EducationItem['accentColor'], { icon: string; badge: str
   },
   cyan: {
     icon: 'bg-cyan-50 dark:bg-cyan-500/10 text-cyan-500 dark:text-cyan-300',
-    badge: 'text-cyan-600 dark:text-cyan-300',
+    badge: 'text-cyan-700 dark:text-cyan-300',
     bar: 'from-cyan-500 to-emerald-500',
     chip: 'bg-cyan-50 dark:bg-cyan-500/10 border-cyan-200 dark:border-cyan-500/25 text-cyan-700 dark:text-cyan-300',
   },
@@ -42,9 +42,9 @@ function EducationCard({ item, index }: { item: EducationItem; index: number }) 
 
         <div className="flex items-start justify-between gap-4">
           <div className={`inline-flex p-3 rounded-xl ${accent.icon}`}>
-            <GraduationCap size={22} />
+            <GraduationCap aria-hidden="true" size={22} />
           </div>
-          <span className="font-mono text-[11px] text-slate-400 dark:text-slate-500">
+          <span aria-hidden className="font-mono text-[11px] text-slate-400 dark:text-slate-500">
             degree_{String(index + 1).padStart(2, '0')}
           </span>
         </div>
@@ -54,8 +54,8 @@ function EducationCard({ item, index }: { item: EducationItem; index: number }) 
           <h3 className="mt-1.5 text-xl font-bold text-slate-900 dark:text-slate-100 leading-snug">{item.degree}</h3>
           <p className="mt-1 text-sm font-medium text-slate-700 dark:text-slate-300">{item.institution}</p>
           {item.campus && (
-            <p className="mt-1 flex items-center gap-1 text-xs text-slate-500">
-              <MapPin size={12} />
+            <p className="mt-1 flex items-center gap-1 text-xs text-slate-500 dark:text-slate-400">
+              <MapPin aria-hidden="true" size={12} />
               {item.campus}
             </p>
           )}
@@ -108,7 +108,7 @@ export default function Education() {
           initial="hidden"
           whileInView="visible"
           viewport={inViewOnce}
-          className="mt-8 text-center font-mono text-xs text-slate-400 dark:text-slate-500"
+          className="mt-8 text-center font-mono text-xs text-slate-500 dark:text-slate-400"
         >
           {'// technical depth × business acumen → engineering leadership'}
         </motion.p>

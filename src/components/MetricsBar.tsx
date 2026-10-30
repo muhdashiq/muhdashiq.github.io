@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { motion, useInView } from 'framer-motion'
+import { motion, useInView, useReducedMotion } from 'framer-motion'
 import { Users, Award, Cpu, Building2, Globe, GraduationCap } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
 import { metrics } from '../data/resumeData'
@@ -18,32 +18,43 @@ const iconMap: Record<string, LucideIcon> = {
 }
 
 function AnimatedCounter({ target, suffix = '' }: { target: number; suffix?: string }) {
-  const [count, setCount] = useState(0)
+  const reduce = useReducedMotion()
+  const [count, setCount] = useState(reduce ? target : 0)
   const ref = useRef<HTMLSpanElement>(null)
   const isInView = useInView(ref, { once: true })
 
   useEffect(() => {
     if (!isInView) return
+    if (reduce) {
+      setCount(target)
+      return
+    }
     const duration = 1800
     const startTime = performance.now()
+    let frame = 0
 
     const tick = (now: number) => {
-      const elapsed = now - startTime
-      const progress = Math.min(elapsed / duration, 1)
+      const progress = Math.min((now - startTime) / duration, 1)
       const eased = 1 - Math.pow(1 - progress, 3)
       setCount(Math.floor(eased * target))
-      if (progress < 1) requestAnimationFrame(tick)
+      if (progress < 1) frame = requestAnimationFrame(tick)
       else setCount(target)
     }
 
-    const raf = requestAnimationFrame(tick)
-    return () => cancelAnimationFrame(raf)
-  }, [isInView, target])
+    frame = requestAnimationFrame(tick)
+    return () => cancelAnimationFrame(frame)
+  }, [isInView, target, reduce])
 
   return (
     <span ref={ref} className="tabular-nums">
-      {count}
-      {suffix}
+      <span className="sr-only">
+        {target}
+        {suffix}
+      </span>
+      <span aria-hidden>
+        {count}
+        {suffix}
+      </span>
     </span>
   )
 }
@@ -71,9 +82,9 @@ function MetricCard({ metric }: { metric: Metric }) {
     <SpotlightCard className="p-6">
       <div className="flex items-start justify-between">
         <div className={`inline-flex p-2.5 rounded-xl ${accent.iconBg} mb-4`}>
-          <Icon size={20} className={accent.iconColor} />
+          <Icon aria-hidden="true" size={20} className={accent.iconColor} />
         </div>
-        <span className="font-mono text-[10px] text-slate-400 dark:text-slate-600">{metric.id}</span>
+        <span aria-hidden className="font-mono text-[10px] text-slate-400 dark:text-slate-600">{metric.id}</span>
       </div>
       <div className="text-4xl font-extrabold tracking-tight text-slate-900 dark:text-slate-100 mb-1">
         <AnimatedCounter target={metric.value} suffix={metric.suffix} />
@@ -81,7 +92,7 @@ function MetricCard({ metric }: { metric: Metric }) {
       <div className="text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1">
         {metric.label}
       </div>
-      <div className="text-xs text-slate-500 dark:text-slate-500 leading-relaxed">
+      <div className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
         {metric.sublabel}
       </div>
     </SpotlightCard>

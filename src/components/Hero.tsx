@@ -39,26 +39,30 @@ function RotatingFocus() {
   }, [reduce, words.length])
 
   return (
-    <span className="relative inline-flex h-[1.3em] overflow-hidden align-bottom">
-      <AnimatePresence mode="wait" initial={false}>
-        <motion.span
-          key={words[index]}
-          initial={{ y: '100%', opacity: 0, filter: 'blur(4px)' }}
-          animate={{ y: '0%', opacity: 1, filter: 'blur(0px)' }}
-          exit={{ y: '-100%', opacity: 0, filter: 'blur(4px)' }}
-          transition={{ duration: 0.45, ease: easeOutExpo }}
-          className="animated-gradient-text font-bold whitespace-nowrap"
-        >
-          {words[index]}
-        </motion.span>
-      </AnimatePresence>
-    </span>
+    <>
+      <span className="sr-only">{words.join(', ')}</span>
+      <span aria-hidden className="relative inline-flex h-[1.3em] overflow-hidden align-bottom">
+        <AnimatePresence mode="wait" initial={false}>
+          <motion.span
+            key={words[index]}
+            initial={{ y: '100%', opacity: 0, filter: 'blur(4px)' }}
+            animate={{ y: '0%', opacity: 1, filter: 'blur(0px)' }}
+            exit={{ y: '-100%', opacity: 0, filter: 'blur(4px)' }}
+            transition={{ duration: 0.45, ease: easeOutExpo }}
+            className="animated-gradient-text font-bold whitespace-nowrap"
+          >
+            {words[index]}
+          </motion.span>
+        </AnimatePresence>
+      </span>
+    </>
   )
 }
 
 function AgentTrace() {
   return (
     <motion.div
+      aria-hidden
       initial={{ opacity: 0, y: 16 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 1.2, duration: 0.6, ease: easeOutExpo }}
@@ -68,7 +72,7 @@ function AgentTrace() {
         <span className="w-2.5 h-2.5 rounded-full bg-rose-500/70" />
         <span className="w-2.5 h-2.5 rounded-full bg-amber-400/70" />
         <span className="w-2.5 h-2.5 rounded-full bg-emerald-500/70" />
-        <span className="ml-2 font-mono text-[10px] text-slate-500">leadership-agent · trace</span>
+        <span className="ml-2 font-mono text-[10px] text-slate-400">leadership-agent · trace</span>
       </div>
       <motion.ul
         initial="hidden"
@@ -100,7 +104,7 @@ export default function Hero() {
   return (
     <section
       id="hero"
-      className="relative min-h-screen flex items-center pt-16 overflow-hidden bg-slate-50 dark:bg-slate-950"
+      className="relative lg:min-h-screen flex items-start lg:items-center pt-16 overflow-hidden bg-slate-50 dark:bg-slate-950"
     >
       {/* Background: grid + drifting aurora */}
       <div aria-hidden className="pointer-events-none absolute inset-0 ai-grid" />
@@ -115,11 +119,11 @@ export default function Hero() {
         style={{ background: 'radial-gradient(closest-side, #06b6d4, transparent)', animationDelay: '-9s' }}
       />
 
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 w-full">
-        <div className="grid lg:grid-cols-12 gap-12 items-center">
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 pb-20 sm:py-20 w-full">
+        <div className="grid lg:grid-cols-12 gap-10 lg:gap-12 items-center">
 
           {/* ── Left: Content ── */}
-          <div className="lg:col-span-7 min-w-0 space-y-7">
+          <div className="lg:col-span-7 min-w-0 space-y-6 sm:space-y-7">
             <motion.div custom={0} variants={fadeUp} initial="hidden" animate="visible">
               <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-white/70 dark:bg-slate-900/70 backdrop-blur text-indigo-600 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-500/30">
                 <span className="relative flex h-2 w-2">
@@ -136,7 +140,7 @@ export default function Hero() {
                 variants={fadeUp}
                 initial="hidden"
                 animate="visible"
-                className="text-5xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight text-slate-900 dark:text-slate-100 leading-[1.05]"
+                className="text-[2.75rem] sm:text-6xl lg:text-7xl font-extrabold tracking-tight text-slate-900 dark:text-slate-100 leading-[1.05]"
               >
                 Muhammed <span className="gradient-text">Ashiq</span>
               </motion.h1>
@@ -146,15 +150,15 @@ export default function Hero() {
                 variants={fadeUp}
                 initial="hidden"
                 animate="visible"
-                className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-slate-500"
+                className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-slate-600 dark:text-slate-400"
               >
                 <span className="flex items-center gap-1">
-                  <Briefcase size={14} />
+                  <Briefcase aria-hidden="true" size={14} />
                   {personalInfo.currentTitle} · {personalInfo.currentCompany}
                 </span>
-                <span className="hidden sm:inline text-slate-300 dark:text-slate-700">|</span>
+                <span aria-hidden className="hidden sm:inline text-slate-300 dark:text-slate-700">|</span>
                 <span className="flex items-center gap-1">
-                  <MapPin size={14} />
+                  <MapPin aria-hidden="true" size={14} />
                   {personalInfo.location}
                 </span>
               </motion.div>
@@ -192,7 +196,7 @@ export default function Hero() {
                 className="group relative inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 text-white font-semibold text-sm shadow-lg shadow-indigo-600/25 hover:shadow-indigo-500/40 transition-shadow overflow-hidden"
               >
                 <span className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-white/25 to-transparent" />
-                <Download size={16} />
+                <Download aria-hidden="true" size={16} />
                 Download CV
               </motion.a>
               <motion.a
@@ -203,8 +207,9 @@ export default function Hero() {
                 whileTap={{ scale: 0.97 }}
                 className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-white/80 dark:bg-slate-900/80 backdrop-blur hover:bg-white dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200 font-semibold text-sm border border-slate-200 dark:border-slate-700 transition-colors"
               >
-                <Linkedin size={16} className="text-indigo-500" />
+                <Linkedin aria-hidden="true" size={16} className="text-indigo-500" />
                 LinkedIn
+                <span className="sr-only"> (opens in a new tab)</span>
               </motion.a>
               <motion.a
                 href={`mailto:${personalInfo.email}?subject=Let%27s%20Connect`}
@@ -212,26 +217,26 @@ export default function Hero() {
                 whileTap={{ scale: 0.97 }}
                 className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 font-semibold text-sm border border-slate-200 dark:border-slate-700/50 hover:border-slate-300 dark:hover:border-slate-600 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors"
               >
-                <Mail size={16} />
+                <Mail aria-hidden="true" size={16} />
                 Get in Touch
               </motion.a>
             </motion.div>
 
             <motion.div custom={6} variants={fadeUp} initial="hidden" animate="visible">
-              <p className="flex items-center gap-1.5 font-mono text-[11px] text-slate-400 dark:text-slate-500 uppercase tracking-wider mb-3">
-                <Sparkles size={12} className="text-cyan-500" />
+              <p className="flex items-center gap-1.5 font-mono text-[11px] text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-3">
+                <Sparkles aria-hidden="true" size={12} className="text-cyan-500" />
                 Career across
               </p>
-              <div className="flex flex-wrap items-center gap-x-6 gap-y-2">
+              <ul className="flex flex-wrap items-center gap-x-6 gap-y-2">
                 {trustLogos.map((name) => (
-                  <span
+                  <li
                     key={name}
-                    className="text-sm font-semibold text-slate-400 dark:text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 transition-colors"
+                    className="text-sm font-semibold text-slate-500 dark:text-slate-400"
                   >
                     {name}
-                  </span>
+                  </li>
                 ))}
-              </div>
+              </ul>
             </motion.div>
           </div>
 
@@ -246,13 +251,13 @@ export default function Hero() {
       <motion.a
         href="#impact"
         aria-label="Scroll to impact"
-        className="absolute bottom-6 left-1/2 text-slate-400 dark:text-slate-600 hover:text-indigo-500"
+        className="hidden lg:block absolute bottom-6 left-1/2 p-2 rounded-full text-slate-500 dark:text-slate-400 hover:text-indigo-500"
         style={{ x: '-50%' }}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1, y: [0, 8, 0] }}
         transition={{ delay: 1.2, duration: 2, repeat: Infinity, ease: 'easeInOut' }}
       >
-        <ChevronDown size={24} />
+        <ChevronDown aria-hidden="true" size={24} />
       </motion.a>
     </section>
   )

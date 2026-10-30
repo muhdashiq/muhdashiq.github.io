@@ -45,12 +45,12 @@ function CompetencyCard({
       {/* Card header */}
       <div className={`px-6 py-5 border-b ${style.headerBorder} bg-slate-50/50 dark:bg-slate-800/40`}>
         <div className={`inline-flex p-2.5 rounded-xl ${style.iconBg} mb-3`}>
-          <Icon size={20} className={style.iconColor} />
+          <Icon aria-hidden="true" size={20} className={style.iconColor} />
         </div>
         <h3 className="text-base font-bold text-slate-900 dark:text-slate-100">
           {group.category}
         </h3>
-        <p className="mt-1 text-xs text-slate-500 dark:text-slate-500">{group.description}</p>
+        <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">{group.description}</p>
       </div>
 
       {/* Tags */}

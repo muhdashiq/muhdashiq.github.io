@@ -24,14 +24,14 @@ const accentMap: Record<
     iconBg: 'bg-cyan-50 dark:bg-cyan-500/10',
     iconColor: 'text-cyan-500 dark:text-cyan-400',
     border: 'hover:border-cyan-300 dark:hover:border-cyan-500/40',
-    tagline: 'text-cyan-600 dark:text-cyan-400',
+    tagline: 'text-cyan-700 dark:text-cyan-400',
     quote: 'border-l-cyan-400 dark:border-l-cyan-500',
   },
   emerald: {
     iconBg: 'bg-emerald-50 dark:bg-emerald-500/10',
     iconColor: 'text-emerald-500 dark:text-emerald-400',
     border: 'hover:border-emerald-300 dark:hover:border-emerald-500/40',
-    tagline: 'text-emerald-600 dark:text-emerald-400',
+    tagline: 'text-emerald-700 dark:text-emerald-400',
     quote: 'border-l-emerald-400 dark:border-l-emerald-500',
   },
   violet: {
@@ -51,7 +51,7 @@ function PhilosophyCard({ philosophy }: { philosophy: Philosophy }) {
     <SpotlightCard className="p-7 flex flex-col gap-4">
       <div>
         <div className={`inline-flex p-3 rounded-xl ${accent.iconBg} mb-4`}>
-          <Icon size={22} className={accent.iconColor} />
+          <Icon aria-hidden="true" size={22} className={accent.iconColor} />
         </div>
         <h3 className="text-lg font-bold text-slate-900 dark:text-slate-100 mb-1">
           {philosophy.title}
