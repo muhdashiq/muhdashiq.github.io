@@ -9,7 +9,7 @@ export const personalInfo = {
   headline: 'Building world-class engineering orgs and AI-native platforms at scale',
   subHeadline:
     '16+ years designing distributed systems and scaling high-performance teams across Docusign, Amazon, and Oracle — now leading agentic AI workflows, federated RAG, and integration platforms. IIM Kozhikode MBA + CTO Programme.',
-  openTo: 'Open to Director / VP Engineering · AI Platform Leadership',
+  openTo: 'Open to Engineering Director',
   rotatingFocus: [
     'agentic AI platforms',
     'distributed systems at scale',
