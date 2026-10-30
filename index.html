@@ -3,17 +3,21 @@
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#020617" />
+    <meta name="color-scheme" content="dark light" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
 
     <!-- Primary SEO -->
-    <title>Muhammed Ashiq | Engineering Leader · Platform Architect · Talent Builder</title>
+    <title>Muhammed Ashiq | AI Platform Leader · Distributed Systems Architect · Org Builder</title>
     <meta
       name="description"
-      content="Muhammed Ashiq — Engineering Leader with 16+ years scaling distributed systems and high-performance teams across Docusign, Amazon, and Oracle. IIM Kozhikode MBA. Targeting VP / Director of Engineering roles."
+      content="Muhammed Ashiq — AI platform and engineering leader with 16+ years scaling distributed systems, agentic AI workflows, and high-performance teams across Docusign, Amazon, and Oracle. IIM Kozhikode MBA + CTO Programme. Open to Director."
     />
     <meta
       name="keywords"
-      content="Muhammed Ashiq, Engineering Manager, VP Engineering, Director of Engineering, Head of Engineering, Platform Engineering, Distributed Systems, AI, Docusign, Amazon, Oracle, IIM Kozhikode, Bengaluru"
+      content="Muhammed Ashiq, AI Engineering Leader, Head of AI Platform, VP Engineering, Director of Engineering, Agentic AI, MCP, Federated RAG, LLMOps, Platform Engineering, Distributed Systems, Docusign, Amazon, Oracle, IIM Kozhikode, Bengaluru"
     />
     <meta name="author" content="Muhammed Ashiq" />
     <meta name="robots" content="index, follow" />
@@ -23,12 +27,13 @@
     <meta property="og:type" content="profile" />
     <meta property="og:url" content="https://muhdashiq.com" />
     <meta property="og:site_name" content="Muhammed Ashiq" />
-    <meta property="og:title" content="Muhammed Ashiq | Engineering Leader · Platform Architect" />
+    <meta property="og:title" content="Muhammed Ashiq | AI Platform Leader · Distributed Systems Architect" />
     <meta
       property="og:description"
-      content="Engineering Leader with 16+ years scaling distributed systems and AI-native platforms across Docusign, Amazon, and Oracle. Scaled an engineering org 26× (2→52). IIM Kozhikode MBA."
+      content="AI platform and engineering leader with 16+ years scaling distributed systems, agentic AI workflows, and high-performance teams across Docusign, Amazon, and Oracle. Scaled an engineering org 26× (2→52). IIM Kozhikode MBA + CTO Programme."
     />
     <meta property="og:image" content="https://muhdashiq.com/social-preview.png" />
+    <meta property="og:image:alt" content="Muhammed Ashiq — AI Platform Leader, Distributed Systems Architect, Org Builder" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta property="og:locale" content="en_US" />
@@ -37,11 +42,12 @@
 
     <!-- Twitter / X Card -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Muhammed Ashiq | Engineering Leader · Platform Architect" />
+    <meta name="twitter:title" content="Muhammed Ashiq | AI Platform Leader · Distributed Systems Architect" />
     <meta
       name="twitter:description"
-      content="Engineering Leader with 16+ years scaling distributed systems and AI-native platforms across Docusign, Amazon, and Oracle."
+      content="AI platform and engineering leader with 16+ years scaling distributed systems, agentic AI workflows, and teams (2→52 engineers) across Docusign, Amazon, and Oracle."
     />
+    <meta name="twitter:image:alt" content="Muhammed Ashiq — AI Platform Leader, Distributed Systems Architect, Org Builder" />
     <meta name="twitter:image" content="https://muhdashiq.com/social-preview.png" />
 
     <!-- JSON-LD Person Schema (Google Knowledge Graph) -->
@@ -53,7 +59,7 @@
       "url": "https://muhdashiq.com",
       "image": "https://muhdashiq.com/social-preview.png",
       "jobTitle": "Software Development Manager III",
-      "description": "Strategic Engineering Leader with 16+ years designing and delivering large-scale distributed systems, integration platforms, and AI-enabled workflow products across Docusign, Amazon, and Oracle.",
+      "description": "AI platform and engineering leader with 16+ years designing and delivering large-scale distributed systems, agentic AI workflows, integration platforms, and high-performance engineering organizations across Docusign, Amazon, and Oracle.",
       "worksFor": {
         "@type": "Organization",
         "name": "Docusign",
@@ -80,7 +86,30 @@
         "Microservices Architecture",
         "Team Leadership",
         "Federated RAG",
+        "Agentic AI Workflows",
+        "Large Language Models",
+        "Organizational Design",
         "Product Management"
+      ],
+      "hasCredential": [
+        {
+          "@type": "EducationalOccupationalCredential",
+          "name": "Chief Technology Officer — Management Development Programme",
+          "credentialCategory": "Executive Programme",
+          "recognizedBy": { "@type": "CollegeOrUniversity", "name": "Indian Institute of Management, Kozhikode" }
+        },
+        {
+          "@type": "EducationalOccupationalCredential",
+          "name": "Master of Business Administration (MBA)",
+          "credentialCategory": "degree",
+          "recognizedBy": { "@type": "CollegeOrUniversity", "name": "Indian Institute of Management, Kozhikode" }
+        },
+        {
+          "@type": "EducationalOccupationalCredential",
+          "name": "B.Tech in Computer Science & Engineering",
+          "credentialCategory": "degree",
+          "recognizedBy": { "@type": "CollegeOrUniversity", "name": "Cochin University of Science and Technology" }
+        }
       ],
       "sameAs": [
         "https://www.linkedin.com/in/muhdashiq/",
@@ -100,21 +129,29 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap"
       rel="stylesheet"
     />
 
     <!-- FOUC-safe dark mode -->
     <script>
       (function () {
-        var theme = localStorage.getItem('theme') || 'dark';
+        var theme = 'dark';
+        try { theme = localStorage.getItem('theme') || 'dark'; } catch (e) {}
         document.documentElement.classList.toggle('dark', theme === 'dark');
+        if (theme !== 'dark') document.querySelector('meta[name="theme-color"]').setAttribute('content', '#f8fafc');
       })();
     </script>
-    <script type="module" crossorigin src="/assets/index-B9l9I56W.js"></script>
-    <link rel="stylesheet" crossorigin href="/assets/index-DAo5jH3g.css">
+    <script type="module" crossorigin src="/assets/index-B39SylXS.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-DP7DY3VI.css">
   </head>
   <body>
+    <noscript>
+      <p style="padding:1rem;font-family:system-ui,sans-serif">
+        Muhammed Ashiq — AI Platform Leader. This site needs JavaScript. Reach me on
+        <a href="https://www.linkedin.com/in/muhdashiq/">LinkedIn</a> or download the <a href="/resume.pdf">CV</a>.
+      </p>
+    </noscript>
     <div id="root"></div>
   </body>
 </html>
