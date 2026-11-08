@@ -9,6 +9,7 @@ export const project = {
   status: 'live',
   url: 'https://muhdashiq.com/profile/',
   repo: 'profile',
+  privateCode: true,
   accent: '#4263eb',
   icon: 'user',
   kind: 'website',
