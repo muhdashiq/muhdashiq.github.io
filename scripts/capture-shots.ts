@@ -42,14 +42,28 @@ for (const project of projects) {
   try {
     await page.goto(project.url, { waitUntil: 'networkidle', timeout: 45_000 });
     await page.waitForTimeout(1_500);
-    const pageHeight = await page.evaluate(() => document.documentElement.scrollHeight);
-    const height = Math.min(Math.max(pageHeight, VIEWPORT.height), MAX_HEIGHT);
+    // Apps get one phone screen, with their tab bar where it belongs.
+    // Websites get a taller capture that the card slowly scrolls through;
+    // anything pinned to the bottom of the screen is hidden so it doesn't
+    // land in the middle of the picture.
+    const scrolling = project.kind !== 'app';
+    let height = VIEWPORT.height;
+    if (scrolling) {
+      await page.evaluate(() => {
+        for (const element of document.querySelectorAll<HTMLElement>('body *')) {
+          const fixed = getComputedStyle(element).position === 'fixed';
+          if (fixed && element.getBoundingClientRect().top > window.innerHeight / 2) element.style.visibility = 'hidden';
+        }
+      });
+      const pageHeight = await page.evaluate(() => document.documentElement.scrollHeight);
+      height = Math.min(Math.max(pageHeight, VIEWPORT.height), MAX_HEIGHT);
+    }
     const file = `${project.slug}.jpg`;
     await page.screenshot({
       path: shotsDir + file,
       type: 'jpeg',
       quality: 78,
-      fullPage: true,
+      fullPage: scrolling,
       clip: { x: 0, y: 0, width: VIEWPORT.width, height },
     });
     shots[project.slug] = { file, width: VIEWPORT.width, height };

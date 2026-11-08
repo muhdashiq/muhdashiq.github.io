@@ -47,7 +47,7 @@ export const Hero = ({ projects }: HeroProps) => {
       <h1
         id="hero-title"
         ref={title}
-        className="text-[clamp(2.75rem,11vw,4rem)] leading-[0.92] font-bold tracking-[-0.04em] text-balance"
+        className="text-[clamp(2.75rem,11vw,3.5rem)] leading-[0.92] font-bold tracking-[-0.04em] text-balance"
       >
         Muhammed Ashiq
       </h1>

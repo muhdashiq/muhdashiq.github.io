@@ -57,7 +57,7 @@ export const PhoneShot = ({ project }: PhoneShotProps) => {
         project.status === 'planned' ? 'opacity-60' : ''
       }`}
     >
-      <div ref={screen} className="relative aspect-[9/19] overflow-hidden rounded-[1.15rem] bg-surface">
+      <div ref={screen} className="relative aspect-[390/844] overflow-hidden rounded-[1.15rem] bg-surface">
         {shot ? (
           <img
             ref={image}
