@@ -53,6 +53,11 @@ type ProjectBase = {
   repo?: string;
   /** Set when the repo is private, so the card shows "Private code" instead of a link. */
   privateCode?: boolean;
+  /**
+   * Browser storage to set before the build takes this project's screenshot,
+   * usually to skip a first-launch welcome screen so the card shows the app.
+   */
+  screenshotStorage?: Readonly<Record<string, string>>;
 };
 
 /** A live project must have a URL. A planned one has nothing to open yet. */

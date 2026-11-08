@@ -21,7 +21,7 @@ export const Hero = ({ projects }: HeroProps) => {
       const mm = gsap.matchMedia();
       mm.add(MOTION_OK, () => {
         if (!title.current) return;
-        const split = new SplitText(title.current, { type: 'chars', mask: 'chars' });
+        const split = new SplitText(title.current, { type: 'words,chars', mask: 'chars' });
         gsap
           .timeline({ defaults: { ease: 'expo.out' } })
           .from(split.chars, { yPercent: 115, duration: 0.9, stagger: 0.022 })

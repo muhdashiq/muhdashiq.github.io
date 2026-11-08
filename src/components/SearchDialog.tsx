@@ -77,7 +77,7 @@ export const SearchDialog = ({ open, onClose, projects }: SearchDialogProps) => 
           aria-activedescendant={activeProject ? optionId(activeProject.slug) : undefined}
           aria-label="Search by name, stack or topic"
           placeholder="Try “ocean” or “React Native”"
-          className="h-14 min-w-0 flex-1 bg-transparent text-base outline-none placeholder:text-ink-3"
+          className="h-14 min-w-0 flex-1 bg-transparent text-base outline-none placeholder:text-ink-3 [&::-webkit-search-cancel-button]:appearance-none"
         />
         <kbd className="hidden rounded-md border border-line px-1.5 py-0.5 font-sans text-xs text-ink-3 sm:block">Esc</kbd>
       </div>

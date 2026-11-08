@@ -53,7 +53,7 @@ export const PhoneShot = ({ project }: PhoneShotProps) => {
   return (
     <div
       aria-hidden="true"
-      className={`w-24 shrink-0 self-start rounded-[1.35rem] bg-bezel p-[3px] sm:w-32 lg:w-36 ${
+      className={`w-24 shrink-0 self-start rounded-[1.35rem] bg-bezel p-[3px] sm:w-32 ${
         project.status === 'planned' ? 'opacity-60' : ''
       }`}
     >

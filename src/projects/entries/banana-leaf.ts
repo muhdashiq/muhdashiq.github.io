@@ -15,5 +15,7 @@ export const project = {
   kind: 'app',
   topics: ['kerala', 'health'],
   stack: ['react', 'typescript', 'vite', 'pwa', 'cloudflare'],
+  // Skip the goal setup so the screenshot shows today's meals.
+  screenshotStorage: { 'banana-leaf-settings': JSON.stringify({ state: { onboarded: true }, version: 2 }) },
   order: 20,
 } satisfies Project;

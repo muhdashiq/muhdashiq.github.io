@@ -33,6 +33,12 @@ const shots: Record<string, Shot> = {};
 for (const project of projects) {
   if (!project.url) continue;
   const page = await context.newPage();
+  const storage = project.screenshotStorage;
+  if (storage) {
+    await page.addInitScript((entries) => {
+      for (const [key, value] of Object.entries(entries)) window.localStorage.setItem(key, value);
+    }, storage);
+  }
   try {
     await page.goto(project.url, { waitUntil: 'networkidle', timeout: 45_000 });
     await page.waitForTimeout(1_500);

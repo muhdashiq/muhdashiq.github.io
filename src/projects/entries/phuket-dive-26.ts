@@ -14,5 +14,7 @@ export const project = {
   kind: 'app',
   topics: ['ocean', 'travel'],
   stack: ['react', 'typescript', 'vite', 'pwa'],
+  // Skip the welcome screen so the screenshot shows the day planner.
+  screenshotStorage: { 'pdw:prefs': JSON.stringify({ onboarded: true }) },
   order: 40,
 } satisfies Project;
