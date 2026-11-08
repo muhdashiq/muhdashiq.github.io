@@ -1,0 +1,39 @@
+
+added 52 packages in 3s
+
+> muhdashiq-projects@3.0.0 shots
+> node --experimental-strip-types scripts/capture-shots.ts
+
+captured profile (2026px tall)
+captured banana-leaf (844px tall)
+captured phuket-dive-26 (844px tall)
+captured scuba-diver (844px tall)
+captured addin (2026px tall)
+captured niyal (2026px tall)
+captured lakshadweep-tour (2026px tall)
+7 of 7 screenshots captured
+
+> muhdashiq-projects@3.0.0 build
+> npm run typecheck && vite build
+
+
+> muhdashiq-projects@3.0.0 typecheck
+> tsc -p tsconfig.json && tsc -p tsconfig.node.json
+
+[36mvite v8.3.6 [32mbuilding client environment for production...[36m[39m
+transforming...
+✓ 2103 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                                                       2.60 kB │ gzip:   1.03 kB
+dist/assets/jetbrains-mono-vietnamese-wght-normal-Bt-aOZkq.woff2      7.50 kB
+dist/assets/jetbrains-mono-greek-wght-normal-Bw9x6K1M.woff2           9.00 kB
+dist/assets/jetbrains-mono-cyrillic-wght-normal-D73BlboJ.woff2       12.10 kB
+dist/assets/jetbrains-mono-latin-ext-wght-normal-DBQx-q_a.woff2      15.19 kB
+dist/assets/schibsted-grotesk-latin-ext-wght-normal-hsMS0n0O.woff2   20.92 kB
+dist/assets/jetbrains-mono-latin-wght-normal-B9CIFXIH.woff2          40.40 kB
+dist/assets/schibsted-grotesk-latin-wght-normal-Bb8VGrTG.woff2       46.75 kB
+dist/assets/index-BdMUpM8h.css                                       33.87 kB │ gzip:   9.32 kB
+dist/assets/index-CLpsZxmr.js                                       408.67 kB │ gzip: 142.26 kB
+
+[32m✓ built in 341ms[39m
