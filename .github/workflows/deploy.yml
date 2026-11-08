@@ -1,0 +1,78 @@
+name: Build and deploy
+
+# Every push builds the site. Pushes to main publish it to the gh-pages
+# branch, which GitHub Pages serves at https://muhdashiq.com. Pushes to any
+# other branch publish the build and its log to the ci-preview branch instead,
+# for checking a change before it goes live.
+on:
+  push:
+    branches-ignore: [gh-pages, ci-preview]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: build-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        # Fail a step when any command in a pipe fails, not just the last one.
+        shell: bash
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: |
+          if [ -f package-lock.json ]; then
+            npm ci --no-audit --no-fund 2>&1 | tee -a build.log
+          else
+            npm install --no-audit --no-fund 2>&1 | tee -a build.log
+          fi
+
+      # Screenshots come from the live projects, so a slow or broken project
+      # only loses its picture; it never fails the build.
+      - name: Capture phone screenshots of the live projects
+        continue-on-error: true
+        run: |
+          npx playwright install --with-deps chromium > /dev/null
+          npm run shots 2>&1 | tee -a build.log
+
+      - name: Build
+        run: npm run build 2>&1 | tee -a build.log
+
+      - name: Publish the site
+        if: github.ref_name == 'main'
+        run: |
+          touch dist/.nojekyll
+          cd dist
+          git init -q -b gh-pages
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -q -m "Deploy ${GITHUB_SHA::7}"
+          git push -f "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${GITHUB_REPOSITORY}.git" gh-pages
+
+      - name: Publish a preview of this branch
+        if: always() && github.ref_name != 'main'
+        run: |
+          mkdir -p "$RUNNER_TEMP/preview"
+          cp build.log "$RUNNER_TEMP/preview/" 2>/dev/null || true
+          cp package-lock.json "$RUNNER_TEMP/preview/" 2>/dev/null || true
+          if [ -d dist ]; then cp -r dist "$RUNNER_TEMP/preview/dist"; fi
+          cd "$RUNNER_TEMP/preview"
+          git init -q -b ci-preview
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -q -m "Preview of ${GITHUB_REF_NAME} at ${GITHUB_SHA::7}"
+          git push -f "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${GITHUB_REPOSITORY}.git" ci-preview

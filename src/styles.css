@@ -1,0 +1,71 @@
+@import 'tailwindcss';
+
+/* Dark mode follows the .dark class set by the script in index.html. */
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme inline {
+  --color-paper: var(--paper);
+  --color-surface: var(--surface);
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-ink-3: var(--ink-3);
+  --color-line: var(--line);
+  --color-bezel: var(--bezel);
+
+  --font-sans: 'Schibsted Grotesk Variable', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono Variable', ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+/* Cool, slate-tinted neutrals. Colour comes from the projects themselves. */
+:root {
+  --paper: #f4f6f8;
+  --surface: #ffffff;
+  --ink: #14212b;
+  --ink-2: #44525f;
+  --ink-3: #64717d;
+  --line: #d3dbe2;
+  --bezel: #1b2731;
+  color-scheme: light;
+}
+
+.dark {
+  --paper: #0d151c;
+  --surface: #15202a;
+  --ink: #e7edf2;
+  --ink-2: #b0bcc6;
+  --ink-3: #8a98a4;
+  --line: #2b3945;
+  --bezel: #05090c;
+  color-scheme: dark;
+}
+
+@layer base {
+  html {
+    background-color: var(--paper);
+    color: var(--ink);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-tap-highlight-color: transparent;
+    scroll-padding-top: 4.5rem;
+  }
+
+  body {
+    font-family: var(--font-sans);
+    min-height: 100dvh;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--ink);
+    outline-offset: 2px;
+  }
+}
+
+@layer utilities {
+  .scrollbar-none {
+    scrollbar-width: none;
+  }
+
+  .scrollbar-none::-webkit-scrollbar {
+    display: none;
+  }
+}

@@ -1,31 +1,39 @@
 {
-  "name": "muhdashiq-web",
-  "version": "2.0.0",
+  "name": "muhdashiq-projects",
   "private": true,
-  "homepage": "https://muhdashiq.github.io",
+  "version": "3.0.0",
+  "description": "Muhammed Ashiq's project catalog, served at muhdashiq.com",
   "type": "module",
+  "engines": {
+    "node": ">=22.6"
+  },
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
+    "typecheck": "tsc -p tsconfig.json && tsc -p tsconfig.node.json",
+    "build": "npm run typecheck && vite build",
     "preview": "vite preview",
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d dist"
+    "shots": "node --experimental-strip-types scripts/capture-shots.ts",
+    "check-links": "node --experimental-strip-types scripts/check-links.ts"
   },
   "dependencies": {
-    "framer-motion": "^11.3.0",
-    "lucide-react": "^0.400.0",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "@fontsource-variable/jetbrains-mono": "^5.3.0",
+    "@fontsource-variable/schibsted-grotesk": "^5.3.0",
+    "@gsap/react": "^2.1.2",
+    "gsap": "^3.13.0",
+    "lucide-react": "^1.70.0",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "simple-icons": "^16.36.0"
   },
   "devDependencies": {
-    "@types/react": "^18.3.3",
-    "@types/react-dom": "^18.3.0",
-    "@vitejs/plugin-react": "^4.3.1",
-    "autoprefixer": "^10.4.20",
-    "gh-pages": "^6.1.1",
-    "postcss": "^8.4.40",
-    "tailwindcss": "^3.4.7",
-    "typescript": "^5.5.3",
-    "vite": "^5.3.5"
+    "@tailwindcss/vite": "^4.1.0",
+    "@types/node": "^22.10.0",
+    "@types/react": "^19.1.0",
+    "@types/react-dom": "^19.1.0",
+    "@vitejs/plugin-react": "^6.2.1",
+    "playwright": "^1.65.0",
+    "tailwindcss": "^4.1.0",
+    "typescript": "^5.8.0",
+    "vite": "^8.1.0"
   }
 }

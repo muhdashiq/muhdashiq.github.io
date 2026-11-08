@@ -1,10 +1,16 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import App from './App'
-import './index.css'
+import '@fontsource-variable/jetbrains-mono';
+import '@fontsource-variable/schibsted-grotesk';
+import './styles.css';
 
-ReactDOM.createRoot(document.getElementById('root')!).render(
-  <React.StrictMode>
+import { StrictMode } from 'react';
+import { createRoot } from 'react-dom/client';
+import { App } from './App.tsx';
+
+const root = document.getElementById('root');
+if (!root) throw new Error('index.html is missing the #root element');
+
+createRoot(root).render(
+  <StrictMode>
     <App />
-  </React.StrictMode>,
-)
+  </StrictMode>,
+);

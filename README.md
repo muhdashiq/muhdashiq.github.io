@@ -1,70 +1,61 @@
-# Getting Started with Create React App
+# muhdashiq.com
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+The catalog of everything I build, live at [muhdashiq.com](https://muhdashiq.com). Each project is a
+commit on a `main` graph; tapping one opens the live project. My profile and résumé moved to
+[muhdashiq.com/profile](https://muhdashiq.com/profile/) ([repo](https://github.com/muhdashiq/profile)).
 
-## Available Scripts
+Built with Vite, React 19, TypeScript, Tailwind CSS 4 and GSAP.
 
-In the project directory, you can run:
+## Add a project
 
-### `npm start`
+1. Copy any file in [`src/projects/entries/`](src/projects/entries/) and name it after the repo, for
+   example `my-new-app.ts`.
+2. Edit the fields. The types in [`src/projects/types.ts`](src/projects/types.ts) explain each one,
+   and the build fails if something required is missing:
+   - `status`: `'live'` needs a `url`; `'building'` and `'planned'` don't.
+   - `order`: lower numbers come first. Entries use steps of 10, so you can slot one in between.
+   - `accent`: the project's own colour, used for its commit dot and placeholder.
+   - `icon` and `stack`: pick from the lists in `types.ts`. To add a new one, add it to the list and
+     to [`src/lib/icons.ts`](src/lib/icons.ts) or [`src/lib/stack.ts`](src/lib/stack.ts).
+   - `privateCode: true` hides the code link for a private repo.
+3. Push to `main`. The site rebuilds, takes a fresh phone screenshot of the new project and goes
+   live in a couple of minutes.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Screenshots
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+There are no screenshots in the repo. On every build,
+[`scripts/capture-shots.ts`](scripts/capture-shots.ts) opens each live project at phone size and
+saves a picture for its card. A project that can't be reached keeps an illustrated placeholder, and
+the build carries on. Locally you'll see the placeholders.
 
-### `npm test`
+## Run it locally
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+You need Node 22.6 or newer.
 
-### `npm run build`
+```bash
+npm install
+npm run dev
+```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+| Command               | What it does                                            |
+| --------------------- | ------------------------------------------------------- |
+| `npm run dev`         | Starts the dev server                                   |
+| `npm run build`       | Type-checks and builds into `dist/`                     |
+| `npm run preview`     | Serves the build                                        |
+| `npm run shots`       | Captures phone screenshots of the live projects         |
+| `npm run check-links` | Checks that every project and code link opens           |
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Deploy
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+[`.github/workflows/deploy.yml`](.github/workflows/deploy.yml) builds every push. Pushes to `main`
+are published to the `gh-pages` branch, which GitHub Pages serves with the `muhdashiq.com` domain
+from [`public/CNAME`](public/CNAME). Pushes to other branches publish the build and its log to the
+`ci-preview` branch so a change can be checked before it goes live.
 
-### `npm run eject`
+A second workflow opens every project link each Monday and fails if one is broken, so GitHub emails
+you.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## Old links
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+`muhdashiq.com/resume.pdf` still works: the file stays in `public/` because it's linked from
+elsewhere. The current copy is on the profile site.
